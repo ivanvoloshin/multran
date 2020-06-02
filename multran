@@ -41,6 +41,7 @@ def find_transcription(index):
     if transcription.startswith('['):
         system(f'echo "{transcription}" | tr -d "\n" | pbcopy')
         print(transcription)
+        exit(0)
     else:
         index += 1
         find_transcription(index)
