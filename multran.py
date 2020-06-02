@@ -13,7 +13,7 @@ from bs4 import BeautifulSoup
 from colortext import *
 ct = colortext
 
-if len(argv) == 1:
+if len(argv) == 1 or len(argv) > 2:
     exit(f'{ct.BOLD}usage:{ct.END} multran [word]')
 
 word = argv[1]
