@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/env python3
 
 """
 script fetches word transcription from online dictionary
@@ -9,9 +9,6 @@ from requests import get
 from sys import argv, exit
 from os import system
 from bs4 import BeautifulSoup
-
-from colortext import *
-ct = colortext
 
 if len(argv) == 1 or len(argv) > 2:
     exit(f'usage: multran [word]')
@@ -24,8 +21,7 @@ try:
     url = f'https://www.multitran.com/m.exe?l1=1&l2=2&s={word}&langlist=2'
     response = get(url)
 except (ConnectionError, Exception) as e:
-    exit(f'{ct.RED}Error:{ct.END} {e}')
-
+    exit(e)
 
 page = response.content
 soup = BeautifulSoup(page, 'html.parser')
