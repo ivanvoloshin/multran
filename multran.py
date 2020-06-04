@@ -34,8 +34,7 @@ data = soup.findAll('span', attrs={'style': 'color:gray'})
 if len(data) == 4:
     exit('Word not found')
 
-index = 1
-def find_transcription(index):
+def find_transcription(index = 1):
     transcription = data[index].text
 
     if transcription.startswith('['):
@@ -47,6 +46,6 @@ def find_transcription(index):
         find_transcription(index)
 
 try:
-    find_transcription(index)
+    find_transcription()
 except IndexError:
     exit('Transcription not found')
