@@ -17,8 +17,9 @@ word = argv[1]
 if len(word.split()) > 1:
     word = word.replace(' ', '+')
 
+url = f'https://www.multitran.com/m.exe?l1=1&l2=2&s={word}&langlist=2'
+
 try:
-    url = f'https://www.multitran.com/m.exe?l1=1&l2=2&s={word}&langlist=2'
     response = get(url)
 except (ConnectionError, Exception) as e:
     exit(e)
