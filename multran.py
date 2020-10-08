@@ -5,13 +5,13 @@ script fetches word transcription from online dictionary
 and copies it to clipboard
 """
 
+import pyperclip
 from requests import get
 from sys import argv, exit
-from os import system
 from bs4 import BeautifulSoup
 
 if len(argv) == 1 or len(argv) > 2:
-    exit(f'usage: multran [word]')
+    exit('usage: multran [word]')
 
 word = argv[1]
 if len(word.split()) > 1:
@@ -35,7 +35,7 @@ def find_transcription(index = 1):
     transcription = data[index].text
 
     if transcription.startswith('['):
-        system(f'echo "{transcription}" | tr -d "\n" | pbcopy')
+        pyperclip.copy(transcription)
         exit(transcription)
     else:
         index += 1
