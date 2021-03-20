@@ -36,7 +36,8 @@ def find_transcription(index = 1):
 
     if transcription.startswith('['):
         pyperclip.copy(transcription)
-        exit(transcription)
+        print(transcription)
+        exit(0)
     else:
         index += 1
         find_transcription(index)
