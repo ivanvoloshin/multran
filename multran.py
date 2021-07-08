@@ -1,48 +1,66 @@
 #!/usr/bin/env python3
 
-"""
-script fetches word transcription from online dictionary
-and copies it to clipboard
-"""
-
 import pyperclip
+import  argparse
 from requests import get
 from sys import argv, exit
 from bs4 import BeautifulSoup
 
-if len(argv) == 1 or len(argv) > 2:
-    exit('usage: multran [word]')
+parser =  argparse.ArgumentParser(
+    description='English word transcription fetching tool',
+    usage='%(prog)s')
 
-word = argv[1]
-if len(word.split()) > 1:
-    word = word.replace(' ', '+')
+parser.add_argument('word',  metavar='WORD',  type=str,
+    help='Specify word',
+    action='store',
+    nargs='?'
+)
 
-url = f'https://www.multitran.com/m.exe?l1=1&l2=2&s={word}&langlist=2'
+args = parser.parse_args()
 
-try:
-    response = get(url)
-except (ConnectionError, Exception) as e:
-    exit(e)
-
-page = response.content
-soup = BeautifulSoup(page, 'html.parser')
-data = soup.findAll('span', attrs={'style': 'color:gray'})
-
-if len(data) == 4:
-    exit('Word not found')
-
-def find_transcription(index = 1):
-    transcription = data[index].text
+def find_transcription(index, lst):
+    transcription = lst[index].text
 
     if transcription.startswith('['):
         pyperclip.copy(transcription)
         print(transcription)
-        exit(0)
+        # exit(0)
     else:
         index += 1
-        find_transcription(index)
+        find_transcription(index, lst)
 
-try:
-    find_transcription()
-except IndexError:
-    exit('Transcription not found')
+def process(word):
+    if len(word.split()) > 1:
+        word = word.replace(' ', '+')
+
+    url = f'https://www.multitran.com/m.exe?l1=1&l2=2&s={word}&langlist=2'
+
+    try:
+        response = get(url)
+    except (ConnectionError, Exception) as e:
+        exit(e)
+
+    page = response.content
+    soup = BeautifulSoup(page, 'html.parser')
+    data = soup.findAll('span', attrs={'style': 'color:gray'})
+
+    if len(data) == 7:
+        exit('Word not found')
+
+    try:
+        find_transcription(1, data)
+    except IndexError:
+        exit('Transcription not found')
+
+if args.word:
+    word = args.word
+    process(word)
+else:
+    try:
+        while 1:
+            word = input('Enter word: ')
+            process(word)
+            print()
+    except KeyboardInterrupt as e:
+        print(e)
+        exit(1)
