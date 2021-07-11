@@ -3,7 +3,7 @@
 import pyperclip
 import  argparse
 from requests import get
-from sys import argv, exit
+from sys import exit
 from bs4 import BeautifulSoup
 
 parser =  argparse.ArgumentParser(
