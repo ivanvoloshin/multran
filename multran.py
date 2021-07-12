@@ -10,11 +10,12 @@ parser =  argparse.ArgumentParser(
     description='English word transcription fetching tool',
     usage='%(prog)s')
 
-parser.add_argument('word', metavar='WORD',  type=str,
+parser.add_argument('word', 
+    metavar='WORD',
+    type=str,
     help='Specify word',
     action='store',
-    nargs='?'
-)
+    nargs='?')
 
 args = parser.parse_args()
 
