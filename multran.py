@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import pyperclip
-import  argparse
+import argparse
 from requests import get
 from sys import exit
 from bs4 import BeautifulSoup
