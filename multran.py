@@ -6,18 +6,22 @@ from requests import get
 from sys import exit
 from bs4 import BeautifulSoup
 
-parser =  argparse.ArgumentParser(
+parser = argparse.ArgumentParser(
     description='English word transcription fetching tool',
-    usage='%(prog)s')
+    usage='%(prog)s'
+)
 
-parser.add_argument('word', 
+parser.add_argument(
+    'word',
     metavar='WORD',
     type=str,
     help='Specify word',
     action='store',
-    nargs='?')
+    nargs='?'
+)
 
 args = parser.parse_args()
+
 
 class Multran():
     def __init__(self, word=None) -> None:
@@ -25,7 +29,7 @@ class Multran():
 
     def process(self, word):
         if len(word.split()) > 1:
-            word = word.replace(' ', '+')    
+            word = word.replace(' ', '+')
 
         url = f'https://www.multitran.com/m.exe?l1=1&l2=2&s={word}&langlist=2'
 
@@ -36,7 +40,7 @@ class Multran():
 
         page = response.content
         soup = BeautifulSoup(page, 'html.parser')
-        data = soup.findAll('span', attrs={'style': 'color:gray'})           
+        data = soup.findAll('span', attrs={'style': 'color:gray'})
 
         if len(data) == 7:
             exit('Word not found')
@@ -54,7 +58,8 @@ class Multran():
             print(transcription)
         else:
             index += 1
-            self.find_transcription(index, lst)        
+            self.find_transcription(index, lst)
+
 
 if args.word:
     word = args.word
